@@ -6,7 +6,7 @@ import { AppRegistry, View, StatusBar, Dimensions, Platform } from 'react-native
 import App from './Src/App'
 import { name as appName } from './app.json';
 import { Colors } from './Src/Config';
-
+import NetInfo from "@react-native-community/netinfo";
 const { width, height } = Dimensions.get('window');
 let screenHeight = width < height ? height : width
 const MyStatusBar = ({ backgroundColor }) => (
@@ -20,6 +20,19 @@ class DemoApp extends Component {
         super()
         console.disableYellowBox = true;
     }
+    componentDidMount() {
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+      }
+      componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+      }
+      handleConnectivityChange = isConnected => {
+        this.setState({ isConnected, hideNotice: false });
+        global.isConnected = isConnected
+        if (isConnected) {
+        //connected
+        }
+      }
     render() {
         return (
             <View style={Styles.container}>

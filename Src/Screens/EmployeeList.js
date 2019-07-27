@@ -1,11 +1,11 @@
 // <<<<<<<<<<<<----------- LIBRARIES ----------->>>>>>>>>>>>>
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { ApplicationStyles, Colors } from '../Config';
 import { connect } from 'react-redux';
 import { getUserRoleRequest } from '../Redux/Actions'
 import Loader from '../Components/loader';
-
+import AsyncStorage from '@react-native-community/async-storage';
 // <<<<<<<<<<<<----------- CLASS DECLARATION ----------->>>>>>>>>>>>>
 class EmployeeList extends Component{
     state={
@@ -13,13 +13,14 @@ class EmployeeList extends Component{
         showLoader:false
     }
     async componentWillMount(){
-        await this.setState({showLoader:true})
-        this.props.getUserRoleRequest();
-        await console.log(this.props);
-        await this.setState({empList:this.props.response.data,});
-        
-        if(this.state.empList.length > 0){
-            await this.setState({showLoader:false})
+        if(global.isConnected){
+            await this.setState({showLoader:true})
+            this.props.getUserRoleRequest();
+        }else{
+            if(this.props.response.data.length > 0){
+                await this.setState({empList:this.props.response.data,});
+                await this.setState({showLoader:false})
+            }
         }
     }
     componentWillReceiveProps(nextProps){
@@ -30,6 +31,9 @@ class EmployeeList extends Component{
         return(
             <View style={{height:ApplicationStyles.headerHeight,backgroundColor:Colors.APPCOLOR,justifyContent:'center',alignItems:'center'}}>
                 <Text style={{fontSize:20}}>Employee List</Text>
+                <TouchableOpacity onPress={()=>AsyncStorage.clear()} style={{height:30,width:80,alignSelf:'center',alignItems:'center',justifyContent:'center',backgroundColor:'pink',borderRadius:15}}>
+                   <Text>Logout</Text> 
+                </TouchableOpacity>
             </View>
         )
     }
