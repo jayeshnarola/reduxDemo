@@ -13,6 +13,10 @@ class EmployeeList extends Component{
         showLoader:false
     }
     async componentWillMount(){
+        // AsyncStorage.clear();
+        await AsyncStorage.getItem('IsLogin').then(async data=>{
+            await console.log("data found",data);
+        })
         if(global.isConnected){
             await this.setState({showLoader:true})
             this.props.getUserRoleRequest();
@@ -31,7 +35,7 @@ class EmployeeList extends Component{
         return(
             <View style={{height:ApplicationStyles.headerHeight,backgroundColor:Colors.APPCOLOR,justifyContent:'center',alignItems:'center'}}>
                 <Text style={{fontSize:20}}>Employee List</Text>
-                <TouchableOpacity onPress={()=>AsyncStorage.clear()} style={{height:30,width:80,alignSelf:'center',alignItems:'center',justifyContent:'center',backgroundColor:'pink',borderRadius:15}}>
+                <TouchableOpacity onPress={()=>AsyncStorage.removeItem('persist:root')} style={{height:30,width:80,alignSelf:'center',alignItems:'center',justifyContent:'center',backgroundColor:'pink',borderRadius:15}}>
                    <Text>Logout</Text> 
                 </TouchableOpacity>
             </View>
@@ -47,6 +51,7 @@ class EmployeeList extends Component{
     // <<<<<<<<<<<<----------- RENDER METHOD ----------->>>>>>>>>>>>>
     render(){
         console.log(this.props);
+        console.log("connectibivy",global.isConnected);
         
         return(
             <View style={{flex:1}}>

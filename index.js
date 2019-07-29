@@ -18,20 +18,25 @@ const MyStatusBar = ({ backgroundColor }) => (
 class DemoApp extends Component {
     constructor() {
         super()
+        this.state={
+            isconnected:''
+        }
         console.disableYellowBox = true;
     }
     componentDidMount() {
-        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange); 
       }
       componentWillUnmount() {
         NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
       }
       handleConnectivityChange = isConnected => {
-        this.setState({ isConnected, hideNotice: false });
-        global.isConnected = isConnected
-        if (isConnected) {
-        //connected
-        }
+        this.setState({isconnected:isConnected})
+        global.isConnected = this.state.isconnected
+        // console.log("Onchange",global.isConnected);
+        // if (isConnected) {
+        // //connected
+        // }else{
+        // }
       }
     render() {
         return (

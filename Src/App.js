@@ -6,8 +6,8 @@
  * @flow
  */
 import React, {Fragment} from 'react';
-import { Provider } from 'react-redux'
-import {store, persistor } from '../Src/Redux/store'
+import { Provider } from 'react-redux';
+import {store, persistor } from '../Src/Redux/store';
 import AppNavigation from './AppNavigation';
 import { PersistGate } from 'redux-persist/integration/react';  
 //Used from redux-persist library .

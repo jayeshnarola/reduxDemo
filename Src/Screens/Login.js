@@ -6,7 +6,7 @@ import Loader from '../Components/loader';
 import { StackActions, NavigationActions } from "react-navigation";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 var FloatingLabel = require('react-native-floating-labels');
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 // <<<<<<<<<<<<----------- CLASS DECLARATION ----------->>>>>>>>>>>>>
 class Login extends Component {
@@ -25,6 +25,7 @@ class Login extends Component {
     }
     onLogin() {
         // this.setState({ showLoader: true })
+        
         setTimeout(() => {
             this.setState({ showLoader: false })
             const resetAction = StackActions.reset({
@@ -71,7 +72,9 @@ class Login extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={Styles.signupView}>
-                            <TouchableOpacity style={Styles.signupButtonView} >
+                            <TouchableOpacity style={Styles.signupButtonView} onPress={() => {
+                                AsyncStorage.setItem('IsLogin','Login Succesfully');
+                            }} >
                                 <Text>Sign Up</Text>
                             </TouchableOpacity>
                         </View>
