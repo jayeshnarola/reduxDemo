@@ -3,8 +3,10 @@
 
 //ASSETS
 import GetDataReducer from './GetDataReducer';
+import GetCountryReducer from './GetCounrtyListReducer';
 
-let rootReducer = {
+let rootReducer = ({
     GetDataList: GetDataReducer,
-  };
+    GetCountryList : GetCountryReducer
+  });
   export default rootReducer

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { ApplicationStyles, Colors } from '../Config';
 import { connect } from 'react-redux';
-import { getUserRoleRequest } from '../Redux/Actions'
+import { getUserRoleRequest, getCountryListRequest } from '../Redux/Actions'
 import Loader from '../Components/loader';
 import AsyncStorage from '@react-native-community/async-storage';
 // <<<<<<<<<<<<----------- CLASS DECLARATION ----------->>>>>>>>>>>>>
@@ -19,17 +19,18 @@ class EmployeeList extends Component{
         })
         if(global.isConnected){
             await this.setState({showLoader:true})
+            this.props.getCountryListRequest();
             this.props.getUserRoleRequest();
         }else{
-            if(this.props.response.data.length > 0){
-                await this.setState({empList:this.props.response.data,});
+            if(this.props.dataList.data.length > 0){
+                await this.setState({empList:this.props.dataList.data,});
                 await this.setState({showLoader:false})
             }
         }
     }
     componentWillReceiveProps(nextProps){
-        console.log("nextProps",nextProps.response.data); 
-        this.setState({empList:nextProps.response.data,showLoader:false});
+        console.log("nextProps",nextProps); 
+        this.setState({empList:nextProps.dataList.data,showLoader:false});
     }
     renderHeader(){
         return(
@@ -63,16 +64,16 @@ class EmployeeList extends Component{
                     renderItem={({item}) => this.renderItem(item)}
                     />
                 </View>
-                <Loader visible={this.state.showLoader} />
+                {/* <Loader visible={this.state.showLoader} /> */}
             </View>
         )
     }
 }
 const mapStateToProps = (res) => {
-    // console.log("Ressss",res);
-    
+    console.log("Ressss",res);  
     return {
-        response: res.GetDataList
+        dataList: res.GetDataList,
+        contryList: res.GetCountryList
     };
 }
-export default connect(mapStateToProps, { getUserRoleRequest })(EmployeeList);
+export default connect(mapStateToProps, { getUserRoleRequest, getCountryListRequest })(EmployeeList);

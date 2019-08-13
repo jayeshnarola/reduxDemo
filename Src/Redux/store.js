@@ -14,6 +14,8 @@ import { sagaMonitor } from './config';
 const Reducers = persistCombineReducers({
     key: 'root',
     storage,
+    blacklist:['GetCountryList'],
+    whitelist:['GetDataList']
   }, rootReducer);
 
 //createSagaMiddleware creates Redux Middleware and connects saga to the redux 
